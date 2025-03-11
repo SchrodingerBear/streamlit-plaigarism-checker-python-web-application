@@ -10,26 +10,20 @@ import random
 from concurrent.futures import ThreadPoolExecutor, as_completed
 from nltk.corpus import stopwords
 from sentence_transformers import SentenceTransformer
-import nltk
-import os
 
-# Ensure 'punkt' is downloaded
-nltk.download('punkt')
+# Ensure correct NLTK data path
+nltk.data.path.append('/home/appuser/nltk_data')
 
-# Siguraduhin na may tamang path
-nltk.data.path.append('/home/vscode/nltk_data')
+# Function to check and download required NLTK resources
+def ensure_nltk_resource(resource_name):
+    try:
+        nltk.data.find(resource_name)
+    except LookupError:
+        nltk.download(resource_name.split('/')[1], download_dir='/home/appuser/nltk_data', quiet=True)
 
-# I-download ang 'punkt' kung hindi pa available
-try:
-    nltk.data.find('tokenizers/punkt')
-except LookupError:
-    nltk.download('punkt', download_dir='/home/vscode/nltk_data')
-
-# I-download din ang stopwords
-try:
-    nltk.data.find('corpora/stopwords')
-except LookupError:
-    nltk.download('stopwords', download_dir='/home/vscode/nltk_data')
+# Check & download 'punkt' and 'stopwords' if missing
+ensure_nltk_resource('tokenizers/punkt')
+ensure_nltk_resource('corpora/stopwords')
 
 
 def add_custom_css():
@@ -184,7 +178,7 @@ def get_page_content(url):
         
         return text[:2000] 
     
-    except Exception:
+    except Exception as e:
         return ""
 
 def split_into_sentences(text):
