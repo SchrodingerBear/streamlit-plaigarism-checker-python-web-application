@@ -10,47 +10,13 @@ import random
 from concurrent.futures import ThreadPoolExecutor, as_completed
 from nltk.corpus import stopwords
 from sentence_transformers import SentenceTransformer
-import os
 
-# Set the NLTK data directory
-NLTK_DATA_PATH = "/home/appuser/nltk_data"
-
-# Ensure the directory exists
-os.makedirs(NLTK_DATA_PATH, exist_ok=True)
-
-nltk.data.path.append(NLTK_DATA_PATH)
-
-# Function to download and verify NLTK resources
-def ensure_nltk_resources(resources):
-    for resource in resources:
-        try:
-            nltk.data.find(resource)
-        except LookupError:
-            print(f"Downloading missing resource: {resource}")
-            nltk.download(resource.split("/")[-1], download_dir=NLTK_DATA_PATH, quiet=True)
-    
-    # Re-check to confirm successful installation
-    for resource in resources:
-        try:
-            nltk.data.find(resource)
-        except LookupError:
-            raise RuntimeError(f"Failed to download NLTK resource: {resource}")
-
-# List of required NLTK resources
-nltk_resources = ["tokenizers/punkt", "corpora/stopwords"]
-
-# Ensure all required resources are available
-ensure_nltk_resources(nltk_resources)
-
-# Function to split text into sentences safely
-def safe_sent_tokenize(text):
-    try:
-        return sent_tokenize(text)
-    except Exception as e:
-        print(f"Error tokenizing text: {e}")
-        return [text]  # Return the full text if tokenization fails
-
-
+try:
+    nltk.data.find('tokenizers/punkt')
+    nltk.data.find('corpora/stopwords')
+except LookupError:
+    nltk.download('punkt', quiet=True)
+    nltk.download('stopwords', quiet=True)
 
 def add_custom_css():
     st.markdown("""
