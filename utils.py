@@ -11,23 +11,22 @@ from concurrent.futures import ThreadPoolExecutor, as_completed
 from nltk.corpus import stopwords
 from sentence_transformers import SentenceTransformer
 
-nltk.data.path.extend([
-    '/home/vscode/nltk_data', 
-    '/usr/local/nltk_data', 
-    '/usr/local/share/nltk_data', 
-    '/usr/local/lib/nltk_data', 
-    '/usr/share/nltk_data', 
-    '/usr/local/share/nltk_data', 
-    '/usr/lib/nltk_data', 
-    '/usr/local/lib/nltk_data'
-])
+import nltk
+import os
+import shutil
 
-try:
-    nltk.data.find('tokenizers/punkt')
-    nltk.data.find('corpora/stopwords')
-except LookupError:
-    nltk.download('punkt', quiet=True)
-    nltk.download('stopwords', quiet=True)
+# Ensure a clean nltk_data directory
+nltk_path = os.path.join(os.getcwd(), "nltk_data")
+if os.path.exists(nltk_path):
+    shutil.rmtree(nltk_path)  # Remove old data to avoid corruption
+os.makedirs(nltk_path, exist_ok=True)
+
+# Set NLTK data path
+nltk.data.path.append(nltk_path)
+
+# Download only necessary NLTK resources
+nltk.download('punkt', download_dir=nltk_path)
+nltk.download('stopwords', download_dir=nltk_path)
 
 
 def add_custom_css():
