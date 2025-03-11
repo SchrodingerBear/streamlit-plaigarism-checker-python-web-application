@@ -10,10 +10,11 @@ import random
 from concurrent.futures import ThreadPoolExecutor, as_completed
 from nltk.corpus import stopwords
 from sentence_transformers import SentenceTransformer
+nltk.data.path.append('/home/vscode/nltk_data')
 
 try:
-    nltk.data.find('tokenizers/punkt')
-    nltk.data.find('corpora/stopwords')
+    nltk.data.find('tokenizers/punkt', paths=['/home/vscode/nltk_data'])
+    nltk.data.find('corpora/stopwords', paths=['/home/vscode/nltk_data'])
 except LookupError:
     nltk.download('punkt', quiet=True)
     nltk.download('stopwords', quiet=True)
