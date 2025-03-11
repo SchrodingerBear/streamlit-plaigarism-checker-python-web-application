@@ -10,6 +10,7 @@ import random
 from concurrent.futures import ThreadPoolExecutor, as_completed
 from nltk.corpus import stopwords
 from sentence_transformers import SentenceTransformer
+nltk.data.path.append('/home/appuser/nltk_data')
 
 try:
     nltk.data.find('tokenizers/punkt')
