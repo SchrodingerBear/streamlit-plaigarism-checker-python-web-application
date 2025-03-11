@@ -13,6 +13,9 @@ from sentence_transformers import SentenceTransformer
 import nltk
 import os
 
+# Ensure 'punkt' is downloaded
+nltk.download('punkt')
+
 # Siguraduhin na may tamang path
 nltk.data.path.append('/home/vscode/nltk_data')
 
