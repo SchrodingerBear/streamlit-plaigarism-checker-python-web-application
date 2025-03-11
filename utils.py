@@ -181,7 +181,7 @@ def get_page_content(url):
         
         return text[:2000] 
     
-    except Exception as e:
+    except Exception:
         return ""
 
 def split_into_sentences(text):
