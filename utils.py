@@ -26,6 +26,7 @@ nltk.data.path.append(nltk_path)
 
 # Download only necessary NLTK resources
 nltk.download('punkt', download_dir=nltk_path)
+nltk.download('punkt_tab', download_dir=nltk_path)
 nltk.download('stopwords', download_dir=nltk_path)
 
 
