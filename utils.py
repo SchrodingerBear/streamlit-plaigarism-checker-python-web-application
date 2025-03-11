@@ -11,19 +11,23 @@ from concurrent.futures import ThreadPoolExecutor, as_completed
 from nltk.corpus import stopwords
 from sentence_transformers import SentenceTransformer
 
-# Ensure correct NLTK data path
-nltk.data.path.append('/home/appuser/nltk_data')
+# Set the NLTK data directory
+NLTK_DATA_PATH = "/home/appuser/nltk_data"
+nltk.data.path.append(NLTK_DATA_PATH)
 
-# Function to check and download required NLTK resources
-def ensure_nltk_resource(resource_name):
-    try:
-        nltk.data.find(resource_name)
-    except LookupError:
-        nltk.download(resource_name.split('/')[1], download_dir='/home/appuser/nltk_data', quiet=True)
+# Function to ensure required NLTK resources are available
+def ensure_nltk_resources(resources):
+    for resource in resources:
+        try:
+            nltk.data.find(resource)
+        except LookupError:
+            nltk.download(resource.split("/")[-1], download_dir=NLTK_DATA_PATH, quiet=True)
 
-# Check & download 'punkt' and 'stopwords' if missing
-ensure_nltk_resource('tokenizers/punkt')
-ensure_nltk_resource('corpora/stopwords')
+# List of required NLTK resources
+nltk_resources = ["tokenizers/punkt", "corpora/stopwords"]
+
+# Ensure all required resources are available
+ensure_nltk_resources(nltk_resources)
 
 
 def add_custom_css():
