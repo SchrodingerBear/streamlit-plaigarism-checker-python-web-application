@@ -10,14 +10,24 @@ import random
 from concurrent.futures import ThreadPoolExecutor, as_completed
 from nltk.corpus import stopwords
 from sentence_transformers import SentenceTransformer
+import nltk
+import os
+
+# Siguraduhin na may tamang path
 nltk.data.path.append('/home/vscode/nltk_data')
 
+# I-download ang 'punkt' kung hindi pa available
 try:
-    nltk.data.find('tokenizers/punkt', paths=['/home/vscode/nltk_data'])
-    nltk.data.find('corpora/stopwords', paths=['/home/vscode/nltk_data'])
+    nltk.data.find('tokenizers/punkt')
 except LookupError:
-    nltk.download('punkt', quiet=True)
-    nltk.download('stopwords', quiet=True)
+    nltk.download('punkt', download_dir='/home/vscode/nltk_data')
+
+# I-download din ang stopwords
+try:
+    nltk.data.find('corpora/stopwords')
+except LookupError:
+    nltk.download('stopwords', download_dir='/home/vscode/nltk_data')
+
 
 def add_custom_css():
     st.markdown("""
